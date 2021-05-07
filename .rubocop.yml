@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: disable
   TargetRubyVersion: 3
 
 Layout/LineLength:
