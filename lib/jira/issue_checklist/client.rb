@@ -8,7 +8,7 @@ module Jira
     # Client to fetch data from the Issue Checklist project
     class Client
       BASE_URL = 'https://herocoders.atlassian.net/rest/api/3'
-      PROJECT = 'IC'
+      PROJECT_NAME = 'IC'
 
       def components
         fetch "#{BASE_URL}/project/IC/components"
@@ -18,11 +18,12 @@ module Jira
         components.reject { |c| c.key?('lead') }
       end
 
-      def issues_by(components)
-        return [] if components.empty?
+      def issues_by(component_names)
+        return [] if component_names.empty?
 
+        component_names.map! { |name| "'#{name}'" }
         jql = <<~JQL
-          project='#{PROJECT}' AND component IN (#{components.join(', ')})
+          project='#{PROJECT_NAME}' AND component IN (#{component_names.join(', ')})
         JQL
         fetch("#{BASE_URL}/search?jql=#{jql}")['issues']
       end
@@ -31,6 +32,7 @@ module Jira
 
       def fetch(url)
         uri = URI.parse(url)
+        p uri
         res = Net::HTTP.get(uri)
         JSON.parse(res)
       end
