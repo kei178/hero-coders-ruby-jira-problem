@@ -5,6 +5,8 @@
 
 ## Run
 
+The following command prints a list of components that don't have a "component lead", along with the number of issues from the Issue Checklist project to the console.
+
 ```
 ruby main.rb
 ```
