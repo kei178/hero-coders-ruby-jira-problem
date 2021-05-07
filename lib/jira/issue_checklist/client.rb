@@ -11,7 +11,7 @@ module Jira
       PROJECT_NAME = 'IC'
 
       def components
-        fetch "#{BASE_URL}/project/IC/components"
+        fetch("#{BASE_URL}/project/IC/components")
       end
 
       def components_without_lead
@@ -25,6 +25,7 @@ module Jira
         jql = <<~JQL
           project='#{PROJECT_NAME}' AND component IN (#{component_names.join(', ')})
         JQL
+
         fetch("#{BASE_URL}/search?jql=#{jql}")['issues']
       end
 
@@ -32,7 +33,6 @@ module Jira
 
       def fetch(url)
         uri = URI.parse(url)
-        p uri
         res = Net::HTTP.get(uri)
         JSON.parse(res)
       end
