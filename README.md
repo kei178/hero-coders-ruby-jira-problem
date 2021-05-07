@@ -1,3 +1,20 @@
+## Solutions
+
+- `./lib/jira/issue_checklist/client.rb`: Fetch data from the Issue Checklist project
+- `./lib/jira/issue_checklist/formatter.rb`: Print fetched data in a human-readable form
+
+## Run
+
+```
+ruby main.rb
+```
+
+## Test
+
+```
+rspec
+```
+
 ## Problem to solve:
 
 Please create Ruby code that uses Jira REST API to retrieve data from the Issue Checklist project, and outputs in human-readable form (to the console or a file) a list of components that don't have a "component lead", along with the number of issues from the Issue Checklist project which belongs to the component.
