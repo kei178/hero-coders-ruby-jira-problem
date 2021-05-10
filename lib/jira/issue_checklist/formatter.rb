@@ -15,8 +15,12 @@ module Jira
       def print
         counts = count_issues_by_component
         puts '** Components that does not have `component lead` **'
-        components.each do |component|
-          puts readable_format(component, counts[component['id']])
+        if components.any?
+          components.each do |component|
+            puts readable_format(component, counts[component['id']])
+          end
+        else
+          puts 'Not found'
         end
       end
 

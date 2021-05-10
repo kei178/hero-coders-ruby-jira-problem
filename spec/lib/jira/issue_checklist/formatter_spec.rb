@@ -42,6 +42,15 @@ RSpec.describe 'Jira::IssueChecklist::Formatter' do
       TEXT
       expect { formatter.print }.to output(output).to_stdout
     end
+
+    it 'prints not found message when componets are empty' do
+      formatter = Jira::IssueChecklist::Formatter.new([], issues)
+      output = <<~TEXT
+        ** Components that does not have `component lead` **
+        Not found
+      TEXT
+      expect { formatter.print }.to output(output).to_stdout
+    end
   end
 
   describe 'count_issues_by_component' do
