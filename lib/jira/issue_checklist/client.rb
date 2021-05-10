@@ -2,6 +2,7 @@
 
 require 'json'
 require 'net/http'
+require_relative '../exceptions'
 
 module Jira
   module IssueChecklist
@@ -34,8 +35,10 @@ module Jira
 
       def fetch(url)
         uri = URI.parse(url)
-        res = Net::HTTP.get(uri)
-        JSON.parse(res)
+        res = Net::HTTP.get_response(uri)
+        raise_jira_api_error(res) unless res.is_a?(Net::HTTPSuccess)
+
+        JSON.parse(res.body || '')
       end
 
       def fetch_all_pages(url, target_field)
@@ -51,6 +54,11 @@ module Jira
         end
 
         results
+      end
+
+      def raise_jira_api_error(res)
+        message = "HTTP status code #{res.code} #{res.message}\n#{res.body}"
+        raise Jira::ApiError, message
       end
     end
   end
