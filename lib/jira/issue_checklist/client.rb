@@ -34,7 +34,7 @@ module Jira
       private
 
       def fetch(url)
-        uri = URI.parse(url)
+        uri = URI(url)
         res = Net::HTTP.get_response(uri)
         raise_jira_api_error(res) unless res.is_a?(Net::HTTPSuccess)
 

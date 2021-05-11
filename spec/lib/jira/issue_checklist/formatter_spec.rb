@@ -2,6 +2,7 @@
 
 require_relative '../../../../lib/jira/issue_checklist/formatter'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'Jira::IssueChecklist::Formatter' do
   let(:components) do
     json = File.read('./spec/fixtures/jira/components.json')
@@ -62,3 +63,4 @@ RSpec.describe 'Jira::IssueChecklist::Formatter' do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
