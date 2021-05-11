@@ -28,7 +28,7 @@ module Jira
           project='#{PROJECT_NAME}' AND component IN (#{component_names.join(', ')})
         JQL
 
-        fetch_all_pages("#{BASE_URL}/search?jql=#{jql}", 'issue')
+        fetch_all_pages("#{BASE_URL}/search?jql=#{jql}", 'issues')
       end
 
       private

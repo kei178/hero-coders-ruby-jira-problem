@@ -76,16 +76,33 @@ RSpec.describe 'Jira::IssueChecklist::Client' do
     end
 
     context 'status not 200' do
-      before do
+      it 'raises Jira::ApiError' do
         body = File.read('./spec/fixtures/jira/issues.json')
         stub_request(:get, /herocoders.atlassian.net/).to_return(
           status: 400, body: body, headers: { 'Content-Type': 'application/json' }
         )
-      end
-
-      it 'raises Jira::ApiError' do
         component_names = ['Data analysis', 'Infrastructure', 'Marketplace']
         expect { jira.issues_by(component_names) }.to raise_error(Jira::ApiError)
+      end
+    end
+
+    context 'without targeted fields' do
+      it 'raises KeyError when the response does not have `total`' do
+        body = { 'issues': [] }.to_json
+        stub_request(:get, /herocoders.atlassian.net/).to_return(
+          status: 200, body: body, headers: { 'Content-Type': 'application/json' }
+        )
+        component_names = ['Data analysis', 'Infrastructure', 'Marketplace']
+        expect { jira.issues_by(component_names) }.to raise_error(KeyError)
+      end
+
+      it 'raises KeyError when the response does not have `issues`' do
+        body = { 'total': 100 }.to_json
+        stub_request(:get, /herocoders.atlassian.net/).to_return(
+          status: 200, body: body, headers: { 'Content-Type': 'application/json' }
+        )
+        component_names = ['Data analysis', 'Infrastructure', 'Marketplace']
+        expect { jira.issues_by(component_names) }.to raise_error(KeyError)
       end
     end
   end
