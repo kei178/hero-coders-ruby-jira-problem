@@ -28,7 +28,7 @@ module Jira
           project='#{PROJECT_NAME}' AND component IN (#{component_names.join(', ')})
         JQL
 
-        fetch_all_pages("#{BASE_URL}/search?jql=#{jql}", 'issues')
+        fetch_all_pages("#{BASE_URL}/search?jql=#{jql}", 'issue')
       end
 
       private
@@ -46,13 +46,12 @@ module Jira
         start_at = 0
         loop do
           res = fetch("#{url}&startAt=#{start_at}&maxResults=#{RESULTS_PER_PAGE}")
-          total ||= res['total']
-          results += res[target_field]
+          total ||= res.fetch('total')
+          results += res.fetch(target_field)
           break if results.count >= total
 
           start_at = results.count
         end
-
         results
       end
 
